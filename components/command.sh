@@ -34,7 +34,6 @@ coal_command_extract()
     (
         NAMESPACE="${1}"
         FILE="${2}"
-        TAB="$(printf "\t")"
 
         cat "${FILE}" | awk "/^export_${NAMESPACE}_.+()/{print \$0}" | while read -r COMMAND; do
             COMMAND_NAME="$(echo "${COMMAND}" | sed "s/^export_${NAMESPACE}_\(..*\)().*$/\1/")"
