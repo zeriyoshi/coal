@@ -4,9 +4,18 @@ ___COAL_PARSER_PARSE_OPTION_BUFFER=""
 
 coal_parser_import()
 {
-    alias "parse"="coal_parser_parse"
-    alias "option"="coal_parser_option"
-    alias "args"="coal_parser_args"
+    alias "parser_parse"="coal_parser_parse"
+    alias "parser_option"="coal_parser_option"
+    alias "parser_args"="coal_parser_args"
+}
+
+coal_parser_short_import()
+{
+    coal_parser_import
+
+    alias "parse"="parser_parse"
+    alias "option"="parser_option"
+    alias "args"="parser_args"
 }
 
 coal_parser_parse()
@@ -56,15 +65,17 @@ coal_parser_option()
 
 coal_parser_args()
 {
-    ___COAL_BUFFER="${1}"
-    shift
+    (
+        ARGUMENT_CANDIDATE="${1}"
+        shift
 
-    if [ ! "$(echo "${1}" | cut -c1)" = "-" -a ! "$(echo "${___COAL_BUFFER}" | cut -c1)" = "-" ] || [ ! "$(echo "${___COAL_BUFFER}" | cut -c1)" = "-" ]; then
-        echo "${___COAL_BUFFER}"
-        for ___COAL_BUFFER in "${@}"; do
-            echo "${___COAL_BUFFER}"
-        done
-        return
-    fi
-    coal_parser_args "${@}"
+        if [ ! "$(echo "${1}" | cut -c1)" = "-" -a ! "$(echo "${ARGUMENT_CANDIDATE}" | cut -c1)" = "-" ] || [ ! "$(echo "${ARGUMENT_CANDIDATE}" | cut -c1)" = "-" ]; then
+            echo "${ARGUMENT_CANDIDATE}"
+            for ARGUMENT in "${@}"; do
+                echo "${ARGUMENT}"
+            done
+            return
+        fi
+        coal_parser_args "${@}"
+    )
 }
