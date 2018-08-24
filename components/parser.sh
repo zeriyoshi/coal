@@ -35,6 +35,10 @@ coal_parser_parse()
         fi
     fi
 
+    if [ ! "$(echo "${2}" | cut -c1)" = "-" -a ! "$(echo "${1}" | cut -c1)" = "-" ] || [ ! "$(echo "${1}" | cut -c1)" = "-" ]; then
+        return
+    fi
+
     if [ ! "${2}" = "" ]; then
         shift
         coal_parser_parse "GLOBAL" "${@}"
@@ -52,19 +56,15 @@ coal_parser_option()
 
 coal_parser_args()
 {
-    ___COAL_PARSER_ARGS_REDUCE="1"
-    for ___COAL_BUFFER in "${@}"; do
-        if [ "$(echo "${___COAL_BUFFER}" | cut -c1)" = "-" ]; then
-            for ___COAL_BUFFER in $(seq 1 "${___COAL_PARSER_ARGS_REDUCE}"); do
-                shift
-            done
-            coal_parser_args "${@}"
-            return
-        fi
-        ___COAL_PARSER_ARGS_REDUCE="$(expr "${___COAL_PARSER_ARGS_REDUCE}" + "1")"
-    done
+    ___COAL_BUFFER="${1}"
+    shift
 
-    for ___COAL_BUFFER in "${@}"; do
+    if [ ! "$(echo "${1}" | cut -c1)" = "-" -a ! "$(echo "${___COAL_BUFFER}" | cut -c1)" = "-" ] || [ ! "$(echo "${___COAL_BUFFER}" | cut -c1)" = "-" ]; then
         echo "${___COAL_BUFFER}"
-    done
+        for ___COAL_BUFFER in "${@}"; do
+            echo "${___COAL_BUFFER}"
+        done
+        return
+    fi
+    coal_parser_args "${@}"
 }
