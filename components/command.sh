@@ -20,7 +20,7 @@ coal_command_call()
 {
     ___COAL_COMMAND_CALL_CANDIDATE="export_${1}_${2}"
 
-    if [ ! "$(type -t "${___COAL_COMMAND_CALL_CANDIDATE}")" = "function" ]; then
+    if ! type "${___COAL_COMMAND_CALL_CANDIDATE}" > /dev/null 2>&1; then
         return 1
     fi
 
