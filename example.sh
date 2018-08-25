@@ -45,7 +45,6 @@ export_global_foo() ## Foo command
 
 export_global_bar() ## Bar command
 {
-    echo "${@}"
     parser_parse "bar" "${@}"
 
     echo "option --bar : " | s_bold | c_cyan | write; echo "$(parser_option "bar" "bar")" | writeln
