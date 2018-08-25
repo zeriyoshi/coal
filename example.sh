@@ -23,6 +23,8 @@ coal_compat_readlink_f()
     )
 }
 
+# Note : compat readlink_f does not support dynamic importing.
+
 coal_compat_short_import
 
 SCRIPT_PATH="$(readlink_f "${0}")"
