@@ -1,5 +1,3 @@
 # Coal
 
-Easy shell-script framework for POSIX environments.
-
-Under construction...
+shell-script framework for POSIX environments.
