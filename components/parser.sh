@@ -37,11 +37,11 @@ coal_parser_parse()
         fi
         if [ "$(echo "${___COAL_PARSER_PARSE_OPTION_BUFFER}" | cut -c2)" = "-" ]; then
             ___COAL_BUFFER="___COAL_PARSER_PARSE_NAMESPACE_${___COAL_PARSER_PARSE_NAMESPACE_BUFFER}_$(echo "${___COAL_PARSER_PARSE_OPTION_BUFFER}" | cut -c3-)"
-            eval ${___COAL_BUFFER}="${___COAL_PARSER_PARSE_VALUE_BUFFER}"
+            eval ${___COAL_BUFFER}="\"${___COAL_PARSER_PARSE_VALUE_BUFFER}\""
         else
             for ___COAL_BUFFER in $(echo "${___COAL_PARSER_PARSE_OPTION_BUFFER}" | cut -c2- | grep -oE '.{1}'); do
                 ___COAL_BUFFER="___COAL_PARSER_PARSE_NAMESPACE_${___COAL_PARSER_PARSE_NAMESPACE_BUFFER}_${___COAL_BUFFER}"
-                eval ${___COAL_BUFFER}="${___COAL_PARSER_PARSE_VALUE_BUFFER}"
+                eval ${___COAL_BUFFER}="\"${___COAL_PARSER_PARSE_VALUE_BUFFER}\""
             done
         fi
     else
