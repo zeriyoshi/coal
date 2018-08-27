@@ -26,7 +26,7 @@ coal_framework_import
 
 framework_init "${SCRIPT_DIR}/../components" "${SCRIPT_PATH}" "coal example" "1.0.0" "https://github.com/zeriyoshi/coal"
 
-export_global_test() # foobar
+export_global_test() ## foobar
 {
     echo "${@}"
 }

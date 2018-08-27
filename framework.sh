@@ -130,8 +130,8 @@ coal_framework_generate_usage()
         echo
         echo "Commands:" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_writeln
         coal_command_extract "${NAMESPACE}" "${SCRIPT_PATH}" | while read -r COMMAND; do
-            echo "${COMMAND}" | sed "s/^\(.*\)$(printf "\t").*\$/    \1/" | coal_writer_color_magenta | coal_writer_write
-            echo "${COMMAND}" | sed "s/^.*$(printf "\t")\(.*\)\$/$(printf "\t\t")\1/" | coal_writer_writeln
+            echo "${COMMAND}" | awk 'BEGIN{FS="\t"} {printf "    %-20s", $1}' | coal_writer_color_magenta | coal_writer_write
+            echo "${COMMAND}" | awk 'BEGIN{FS="\t"} {printf "%s", $2}' | coal_writer_writeln
         done
     )
 }
