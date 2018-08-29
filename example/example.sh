@@ -20,7 +20,7 @@ SCRIPT_DIR="$(dirname "${SCRIPT_PATH}")"
 
 coal_framework_import
 
-framework_init "${SCRIPT_DIR}/../components" "${SCRIPT_PATH}" "coal example" "1.0.0" "https://github.com/zeriyoshi/coal"
+framework_init "${SCRIPT_DIR}/../framework/components" "${SCRIPT_PATH}" "coal example" "coal example application" "1.0.0" "https://github.com/zeriyoshi/coal"
 
 export_global_test() ## foobar
 {

@@ -9,6 +9,7 @@
 ___COAL_FRAMEWORK_INIT_COMPONENTS_DIR=""
 ___COAL_FRAMEWORK_INIT_APP_PATH=""
 ___COAL_FRAMEWORK_INIT_APP_NAME=""
+___COAL_FRAMEWORK_INIT_APP_DETAIL=""
 ___COAL_FRAMEWORK_INIT_APP_VERSION=""
 ___COAL_FRAMEWORK_INIT_APP_URI=""
 ___COAL_FRAMEWORK_INIT_APPENDIX=""
@@ -48,9 +49,10 @@ coal_framework_init()
     ___COAL_FRAMEWORK_INIT_COMPONENTS_DIR="${1}"
     ___COAL_FRAMEWORK_INIT_APP_PATH="${2}"
     ___COAL_FRAMEWORK_INIT_APP_NAME="${3}"
-    ___COAL_FRAMEWORK_INIT_APP_VERSION="${4}"
-    ___COAL_FRAMEWORK_INIT_APP_URI="${5}"
-    ___COAL_FRAMEWORK_INIT_APPENDIX="${6}"
+    ___COAL_FRAMEWORK_INIT_APP_DETAIL="${4}"
+    ___COAL_FRAMEWORK_INIT_APP_VERSION="${5}"
+    ___COAL_FRAMEWORK_INIT_APP_URI="${6}"
+    ___COAL_FRAMEWORK_INIT_APPENDIX="${7}"
 
     if [ ! -f "${___COAL_FRAMEWORK_INIT_APP_PATH}" ]; then
         return 1
@@ -76,7 +78,13 @@ coal_framework_init()
             return 0
         fi
 
-        echo "${___COAL_FRAMEWORK_INIT_APP_NAME}" | coal_writer_style_bold | coal_writer_color_cyan | coal_writer_write; echo " version " | coal_writer_write; echo "${___COAL_FRAMEWORK_INIT_APP_VERSION}" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_write
+        echo "${___COAL_FRAMEWORK_INIT_APP_NAME}" | coal_writer_style_bold | coal_writer_color_cyan | coal_writer_write
+
+        if [ ! "${___COAL_FRAMEWORK_INIT_APP_DETAIL}" = "" ]; then
+            echo " - ${___COAL_FRAMEWORK_INIT_APP_DETAIL}" | coal_writer_color_light_gray | coal_writer_write
+        fi
+
+        echo " version " | coal_writer_write; echo "${___COAL_FRAMEWORK_INIT_APP_VERSION}" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_write
         if [ ! "${___COAL_FRAMEWORK_INIT_APP_URI}" = "" ]; then
             echo " (${___COAL_FRAMEWORK_INIT_APP_URI})"
         else

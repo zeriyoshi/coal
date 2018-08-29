@@ -33,10 +33,10 @@ SCRIPT_INIT_ARGS="${@}"
 SCRIPT_VERSION="1.0.0"
 SCRIPT_UPSTREAM_URI="https://github.com/zeriyoshi/coal"
 
-. "${SCRIPT_DIR}/../components/writer.sh"
-. "${SCRIPT_DIR}/../components/parser.sh"
-. "${SCRIPT_DIR}/../components/config.sh"
-. "${SCRIPT_DIR}/../components/command.sh"
+. "${SCRIPT_DIR}/../framework/components/writer.sh"
+. "${SCRIPT_DIR}/../framework/components/parser.sh"
+. "${SCRIPT_DIR}/../framework/components/config.sh"
+. "${SCRIPT_DIR}/../framework/components/command.sh"
 
 coal_writer_short_import
 coal_parser_import
