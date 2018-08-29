@@ -16,7 +16,7 @@ readlink_f()
 SCRIPT_PATH="$(readlink_f "${0}")"
 SCRIPT_DIR="$(dirname "${SCRIPT_PATH}")"
 
-. "${SCRIPT_DIR}/../framework.sh"
+. "${SCRIPT_DIR}/../framework/framework.sh"
 
 coal_framework_import
 
