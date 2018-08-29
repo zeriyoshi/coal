@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# ------------------------------------------------
+# Coal - shell script command line framework.
+#
+# https://github.com/zeriyoshi/coal
+# ------------------------------------------------
+
 ___COAL_PARSER_PARSE_NAMESPACE_BUFFER=""
 ___COAL_PARSER_PARSE_OPTION_BUFFER=""
 ___COAL_PARSER_PARSE_VALUE_BUFFER=""

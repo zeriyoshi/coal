@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# ------------------------------------------------
+# Coal - shell script command line framework.
+#
+# https://github.com/zeriyoshi/coal
+# ------------------------------------------------
+
 ___COAL_COMMAND_CALL_CANDIDATE=""
 
 coal_command_import()

@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# ------------------------------------------------
+# Coal - shell script command line framework.
+#
+# https://github.com/zeriyoshi/coal
+# ------------------------------------------------
+
 ___COAL_FRAMEWORK_INIT_COMPONENTS_DIR=""
 ___COAL_FRAMEWORK_INIT_APP_PATH=""
 ___COAL_FRAMEWORK_INIT_APP_NAME=""
@@ -73,8 +79,9 @@ coal_framework_init()
         echo "${___COAL_FRAMEWORK_INIT_APP_NAME}" | coal_writer_style_bold | coal_writer_color_cyan | coal_writer_write; echo " version " | coal_writer_write; echo "${___COAL_FRAMEWORK_INIT_APP_VERSION}" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_write
         if [ ! "${___COAL_FRAMEWORK_INIT_APP_URI}" = "" ]; then
             echo " (${___COAL_FRAMEWORK_INIT_APP_URI})"
+        else
+            echo
         fi
-        echo | coal_writer_write
 
         if [ ! "${___COAL_FRAMEWORK_INIT_APPENDIX}" = "" ]; then
             echo
@@ -122,7 +129,7 @@ coal_framework_generate_usage()
 
         echo
         echo "Usage:" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_writeln
-        echo "    ${SCRIPT_PATH} " | coal_writer_write
+        echo "    ${___COAL_FRAMEWORK_INIT_APP_PATH} " | coal_writer_write
         if [ ! "${NAMESPACE}" = "global" ]; then
             echo "${NAMESPACE} " | coal_writer_write
         fi

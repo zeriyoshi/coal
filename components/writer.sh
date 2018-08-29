@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# ------------------------------------------------
+# Coal - shell script command line framework.
+#
+# https://github.com/zeriyoshi/coal
+# ------------------------------------------------
+
 coal_writer_import()
 {
     alias "writer_write"="coal_writer_write"
