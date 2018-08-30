@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# ------------------------------------------------
+# Coal - shell script command line framework.
+#
+# https://github.com/zeriyoshi/coal
+# ------------------------------------------------
+
 coal_config_import()
 {
     alias "config_key_get"="coal_config_key_get"
