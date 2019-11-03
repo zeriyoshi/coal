@@ -15,7 +15,6 @@ ___COAL_FRAMEWORK_INIT_APP_URI=""
 ___COAL_FRAMEWORK_INIT_APPENDIX=""
 ___COAL_FRAMEWORK_RUN_NAMESPACE=""
 ___COAL_FRAMEWORK_RUN_PATH=""
-___COAL_FRAMEWORK_RUN_CHILDREN_DIR=""
 ___COAL_FRAMEWORK_RUN_ARGS=""
 
 coal_framework_import()
@@ -155,8 +154,6 @@ coal_framework_run()
 {
     ___COAL_FRAMEWORK_RUN_NAMESPACE="${1}"
     ___COAL_FRAMEWORK_RUN_PATH="${2}"
-    ___COAL_FRAMEWORK_RUN_CHILDREN_DIR="${3}"
-    shift
     shift
     shift
 
@@ -172,14 +169,6 @@ coal_framework_run()
     done
 
     set "${___COAL_FRAMEWORK_RUN_ARGS}"
-
-    while [ "${#}" -gt "0" ]; do
-        if [ -f "${___COAL_FRAMEWORK_RUN_CHILDREN_DIR}/${1}.coal.sh" ]; then
-            . "${___COAL_FRAMEWORK_RUN_CHILDREN_DIR}/${1}.coal.sh"
-            exit
-        fi
-        shift
-    done
 
     if [ ! "${___COAL_FRAMEWORK_RUN_ARGS}" = "" ];then
         echo "[ERROR]" | coal_writer_style_bold | coal_writer_color_red | coal_writer_write; echo " Invalid command : " | coal_writer_write; echo "${___COAL_FRAMEWORK_RUN_ARGS}" | coal_writer_color_magenta | coal_writer_writeln
