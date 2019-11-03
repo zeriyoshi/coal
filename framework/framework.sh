@@ -69,32 +69,6 @@ coal_framework_init()
     done
 
     coal_writer_short_import
-
-    export_global_version()
-    {
-        if [ ! "$(coal_parser_option "version" "version")" = "" ] || [ ! "$(coal_parser_option "version" "V")" = "" ]; then
-            echo "${___COAL_FRAMEWORK_INIT_APP_VERSION}"
-            return 0
-        fi
-
-        echo "${___COAL_FRAMEWORK_INIT_APP_NAME}" | coal_writer_style_bold | coal_writer_color_cyan | coal_writer_write
-
-        if [ ! "${___COAL_FRAMEWORK_INIT_APP_DETAIL}" = "" ]; then
-            echo " - ${___COAL_FRAMEWORK_INIT_APP_DETAIL}" | coal_writer_color_light_gray | coal_writer_write
-        fi
-
-        echo " version " | coal_writer_write; echo "${___COAL_FRAMEWORK_INIT_APP_VERSION}" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_write
-        if [ ! "${___COAL_FRAMEWORK_INIT_APP_URI}" = "" ]; then
-            echo " (${___COAL_FRAMEWORK_INIT_APP_URI})"
-        else
-            echo
-        fi
-
-        if [ ! "${___COAL_FRAMEWORK_INIT_APPENDIX}" = "" ]; then
-            echo
-            echo "${___COAL_FRAMEWORK_INIT_APPENDIX}"
-        fi
-    }
 }
 
 coal_framework_components_dir()
@@ -131,8 +105,24 @@ coal_framework_generate_usage()
         if [ "$(coal_command_extract "${NAMESPACE}" "${SCRIPT_PATH}")" = "" ]; then
             return
         fi
+        
+        echo "${___COAL_FRAMEWORK_INIT_APP_NAME}" | coal_writer_style_bold | coal_writer_color_cyan | coal_writer_write
 
-        export_global_version
+        if [ ! "${___COAL_FRAMEWORK_INIT_APP_DETAIL}" = "" ]; then
+            echo " - ${___COAL_FRAMEWORK_INIT_APP_DETAIL}" | coal_writer_color_light_gray | coal_writer_write
+        fi
+
+        echo " version " | coal_writer_write; echo "${___COAL_FRAMEWORK_INIT_APP_VERSION}" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_write
+        if [ ! "${___COAL_FRAMEWORK_INIT_APP_URI}" = "" ]; then
+            echo " (${___COAL_FRAMEWORK_INIT_APP_URI})"
+        else
+            echo
+        fi
+
+        if [ ! "${___COAL_FRAMEWORK_INIT_APPENDIX}" = "" ]; then
+            echo
+            echo "${___COAL_FRAMEWORK_INIT_APPENDIX}"
+        fi
 
         echo
         echo "Usage:" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_writeln
@@ -160,6 +150,17 @@ coal_framework_run()
     ___COAL_FRAMEWORK_RUN_ARGS="${@}"
     coal_parser_parse "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "${___COAL_FRAMEWORK_RUN_ARGS}"
 
+    case "${1}" in 
+        "--version" | "-V")
+            echo "${___COAL_FRAMEWORK_INIT_APP_VERSION}"
+            return 0
+            ;;
+        "--help" | "-H")
+            coal_framework_generate_usage "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "${___COAL_FRAMEWORK_RUN_PATH}"
+            return 0
+            ;;
+    esac
+
     while [ "${#}" -gt "0" ]; do
         if coal_command_exists "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "${@}"; then
             coal_parser_parse "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "${@}"
@@ -167,8 +168,6 @@ coal_framework_run()
         fi
         shift
     done
-
-    set "${___COAL_FRAMEWORK_RUN_ARGS}"
 
     if [ ! "${___COAL_FRAMEWORK_RUN_ARGS}" = "" ];then
         echo "[ERROR]" | coal_writer_style_bold | coal_writer_color_red | coal_writer_write; echo " Invalid command : " | coal_writer_write; echo "${___COAL_FRAMEWORK_RUN_ARGS}" | coal_writer_color_magenta | coal_writer_writeln
