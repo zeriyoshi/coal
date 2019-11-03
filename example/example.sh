@@ -71,4 +71,22 @@ export_global_argument_parser() ## argument_parser - argument parsing example
     parser_args "${@}" | xargs -IVALUE echo "arg: VALUE"
 }
 
+export_global_config() ## config - config example ([key] --set=<value>)
+{
+    if [ "${#}" -lt "1" ]; then
+        echo "[ERROR] require key" | writer_s_bold | writer_c_red | writer_writeln
+        return 1
+    fi
+
+    CONFIG_KEY="${1}"
+    shift
+
+    parser_parse "config" "${@}"
+    if [ ! "$(parser_option "config" "set")" = "" ]; then
+        config_key_set "${SCRIPT_DIR}/example.config" "${CONFIG_KEY}" "$(parser_option "config" "set")"
+    fi
+
+    config_key_get "${SCRIPT_DIR}/example.config" "${CONFIG_KEY}"
+}
+
 framework_run "global" "${SCRIPT_PATH}" "${@}"
