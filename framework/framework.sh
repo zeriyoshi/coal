@@ -163,7 +163,6 @@ coal_framework_run()
 
     while [ "${#}" -gt "0" ]; do
         if coal_command_exists "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "${@}"; then
-            coal_parser_parse "${@}"
             coal_command_call "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "${@}"
         fi
         shift
