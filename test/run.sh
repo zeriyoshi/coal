@@ -62,7 +62,7 @@ texec()
 
 export_global_run() ## run all tests.
 {
-    for SHELL in bash dash yash zsh sh ash; do
+    for SHELL in bash dash yash zsh sh ash ksh; do
         techoinit "${SHELL}"
         if type "${SHELL}" >/dev/null 2>&1; then
             techo "found ${SHELL}."
@@ -98,10 +98,8 @@ export_global_test() ## run testcase.
 
 export_test_initialize() ## initializing test environment.
 {
-    cat - << EOS > "$(framework_app_dir)/config.conf"
-foo=bar
-bar=baz
-EOS
+    echo "foo=bar
+bar=baz" > "$(framework_app_dir)/config.conf"
 }
 
 export_test_simplecommandcall() ## simple command call.
