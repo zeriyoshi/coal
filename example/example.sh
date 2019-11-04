@@ -36,7 +36,7 @@ export_global_foo() ## foo - blah blah blah
 
 export_global_bar() ## bar - nest example
 {
-    framework_run "bar" "${SCRIPT_PATH}" "${SCRIPT_DIR}/commands" "${@}"
+    framework_run "bar" "${SCRIPT_PATH}" "${@}"
 }
 
 export_bar_one() ## one
