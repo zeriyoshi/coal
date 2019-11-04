@@ -22,6 +22,7 @@ coal_framework_import()
     alias "framework_init"="coal_framework_init"
     alias "framework_components_dir"="coal_framework_components_dir"
     alias "framework_app_path"="coal_framework_app_path"
+    alias "framework_app_dir"="coal_framework_app_dir"
     alias "framework_app_name"="coal_framework_app_name"
     alias "framework_app_version"="coal_framework_app_version"
     alias "framework_app_uri"="coal_framework_app_uri"
@@ -36,6 +37,7 @@ coal_framework_short_import()
     alias "init"='framework_init'
     alias "components_dir"="framework_components_dir"
     alias "app_path"="framework_app_path"
+    alias "app_dir"="framework_app_dir"
     alias "app_name"="framework_app_name"
     alias "app_version"="framework_app_version"
     alias "app_uri"="framework_app_uri"
@@ -79,6 +81,11 @@ coal_framework_components_dir()
 coal_framework_app_path()
 {
     echo "${___COAL_FRAMEWORK_INIT_APP_PATH}"
+}
+
+coal_framework_app_dir()
+{
+    dirname "$(coal_framework_app_path)"
 }
 
 coal_framework_app_name()
