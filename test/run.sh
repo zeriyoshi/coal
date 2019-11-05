@@ -84,7 +84,7 @@ export_global_run() ## run all tests.
 
 export_global_docker() ## run test on docker.
 {
-    framework_run "docker" "${SCRIPT_PATH}" "${@}"
+    framework_self_run "docker" "${@}"
 }
 
 export_docker_alpine() ## run test on alpine with docker.
