@@ -33,21 +33,21 @@ techoinit()
 
 techo()
 {
-    echo "[${___TEST_SHELL}] " | writer_s_bold | writer_write
-    echo "${1}" | writer_writeln
+    echo "[${___TEST_SHELL}] " | coal_writer_style_bold | coal_writer_write
+    echo "${1}" | coal_writer_writeln
 }
 
 tcheck()
 {
-    echo "[${___TEST_SHELL}] " | writer_s_bold | writer_write
-    echo "testing: " | writer_write
-    echo "${1}" | writer_s_bold | writer_write
-    echo "..." | writer_write
+    echo "[${___TEST_SHELL}] " | coal_writer_style_bold | coal_writer_write
+    echo "testing: " | coal_writer_write
+    echo "${1}" | coal_writer_style_bold | coal_writer_write
+    echo "..." | coal_writer_write
     if [ ! "${2}" = "${3}" ]; then
-        echo "FAILED" | writer_c_red | writer_s_bold | writer_writeln
+        echo "FAILED" | coal_writer_color_red | coal_writer_style_bold | coal_writer_writeln
         exit 1
     else
-        echo "SUCCESS" | writer_c_green | writer_s_bold | writer_writeln
+        echo "SUCCESS" | coal_writer_color_green | coal_writer_style_bold | writer_writeln
     fi
 }
 
@@ -76,18 +76,31 @@ export_global_run() ## run all tests.
             tcheck "config get" "$(texec "${SHELL}" "test" "configget")" "OK"
             tcheck "config set" "$(texec "${SHELL}" "test" "configset")" "OK"
         else
-            techo "$(echo "SKIP" | writer_c_red | writer_write) not found ${SHELL}."
+            techo "$(echo "SKIP" | coal_writer_color_red | coal_writer_write) not found ${SHELL}."
         fi
     done
 }
 
-export_global_runalpine() ## run all test alpine linux on docker.
+export_global_docker() ## run test on docker.
 {
-    if type docker >/dev/null 2>&1; then
-        docker run --rm -it -v"$(cd "$(framework_app_dir)/.." && pwd):/work" alpine:latest /work/test/run.sh run
+    coal_framework_run "docker" "${SCRIPT_PATH}" "${@}"
+}
+
+export_docker_alpine() ## run test on alpine with docker.
+{
+    if type docker > /dev/null 2>&1; then
+        docker run --rm -it -v"$(cd "$(framework_app_dir)/.." && pwd):/work" zeriyoshi/shell:alpine /work/test/run.sh run
     else
-        echo "Docker not found."
-        return 1
+        echo "Docker not found." | coal_writer_color_red | coal_writer_style_bold | coal_writer_writeln
+    fi
+}
+
+export_docker_debian() ## run test on debian with docker.
+{
+    if type docker > /dev/null 2>&1; then
+        docker run --rm -it -v"$(cd "$(framework_app_dir)/.." && pwd):/work" zeriyoshi/shell:debian /work/test/run.sh run
+    else
+        echo "Docker not found." | coal_writer_color_red | coal_writer_style_bold | coal_writer_writeln
     fi
 }
 
