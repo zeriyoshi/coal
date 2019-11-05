@@ -28,6 +28,7 @@ coal_framework_import()
     alias "framework_app_uri"="coal_framework_app_uri"
     alias "framework_generate_usage"="coal_framework_generate_usage"
     alias "framework_run"="coal_framework_run"
+    alias "framework_self_run"="coal_framework_self_run"
 }
 
 coal_framework_short_import()
@@ -43,6 +44,7 @@ coal_framework_short_import()
     alias "app_uri"="framework_app_uri"
     alias "generate_usage"="framework_generate_usage"
     alias "run"="framework_run"
+    alias "self_run"="framework_self_run"
 }
 
 coal_framework_init()
@@ -70,7 +72,10 @@ coal_framework_init()
         "coal_$(basename "${___COAL_BUFFER}" | sed 's/\.sh$//')_import"
     done
 
-    coal_writer_short_import
+    # Bash alias workaround.
+    if type shopt > /dev/null 2>&1; then
+        shopt -s expand_aliases
+    fi
 }
 
 coal_framework_components_dir()
@@ -121,24 +126,24 @@ coal_framework_generate_usage()
 
         echo " version " | coal_writer_write; echo "${___COAL_FRAMEWORK_INIT_APP_VERSION}" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_write
         if [ ! "${___COAL_FRAMEWORK_INIT_APP_URI}" = "" ]; then
-            echo " (${___COAL_FRAMEWORK_INIT_APP_URI})"
+            echo " (${___COAL_FRAMEWORK_INIT_APP_URI})" | coal_writer_writeln
         else
-            echo
+            echo | coal_writer_writeln
         fi
 
         if [ ! "${___COAL_FRAMEWORK_INIT_APPENDIX}" = "" ]; then
-            echo
-            echo "${___COAL_FRAMEWORK_INIT_APPENDIX}"
+            echo | coal_writer_writeln
+            echo "${___COAL_FRAMEWORK_INIT_APPENDIX}" | coal_writer_writeln
         fi
 
-        echo
+        echo | coal_writer_writeln
         echo "Usage:" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_writeln
         echo "    ${___COAL_FRAMEWORK_INIT_APP_PATH} " | coal_writer_write
         if [ ! "${NAMESPACE}" = "global" ]; then
             echo "${NAMESPACE} " | coal_writer_write
         fi
         echo "[command]" | coal_writer_writeln
-        echo
+        echo | coal_writer_writeln
         echo "Commands:" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_writeln
         coal_command_extract "${NAMESPACE}" "${SCRIPT_PATH}" | while read -r COMMAND; do
             echo "${COMMAND}" | awk 'BEGIN{FS="\t"} {printf "    %-20s", $1}' | coal_writer_color_magenta | coal_writer_write
@@ -182,4 +187,12 @@ coal_framework_run()
     coal_framework_generate_usage "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "${___COAL_FRAMEWORK_RUN_PATH}"
 
     return 1
+}
+
+coal_framework_self_run()
+{
+    ___COAL_FRAMEWORK_RUN_NAMESPACE="${1}"
+    shift
+
+    coal_framework_run "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "$(coal_framework_app_path)" "${@}"
 }

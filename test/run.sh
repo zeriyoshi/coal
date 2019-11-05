@@ -33,21 +33,21 @@ techoinit()
 
 techo()
 {
-    echo "[${___TEST_SHELL}] " | coal_writer_style_bold | coal_writer_write
-    echo "${1}" | coal_writer_writeln
+    echo "[${___TEST_SHELL}] " | writer_s_bold | writer_write
+    echo "${1}" | writer_writeln
 }
 
 tcheck()
 {
-    echo "[${___TEST_SHELL}] " | coal_writer_style_bold | coal_writer_write
-    echo "testing: " | coal_writer_write
-    echo "${1}" | coal_writer_style_bold | coal_writer_write
-    echo "..." | coal_writer_write
+    echo "[${___TEST_SHELL}] " | writer_s_bold | writer_write
+    echo "testing: " | writer_write
+    echo "${1}" | writer_s_bold | writer_write
+    echo "..." | writer_write
     if [ ! "${2}" = "${3}" ]; then
-        echo "FAILED" | coal_writer_color_red | coal_writer_style_bold | coal_writer_writeln
+        echo "FAILED" | writer_c_red | writer_s_bold | writer_writeln
         exit 1
     else
-        echo "SUCCESS" | coal_writer_color_green | coal_writer_style_bold | writer_writeln
+        echo "SUCCESS" | writer_c_green | writer_s_bold | writer_writeln
     fi
 }
 
@@ -56,7 +56,7 @@ texec()
     (
         EXEC_SHELL="${1}"
         shift
-        echo "$("${EXEC_SHELL}" "$(framework_app_path)" ${@})"
+        echo "$("${EXEC_SHELL}" "$(framework_app_path)" ${@} 2> /dev/null)" 
     )
 }
 
@@ -75,15 +75,16 @@ export_global_run() ## run all tests.
             tcheck "POSIX getopt" "$(texec "${SHELL}" "test" "posixgetopt" "--foo=bar" "--bar" "-abc")" "OK"
             tcheck "config get" "$(texec "${SHELL}" "test" "configget")" "OK"
             tcheck "config set" "$(texec "${SHELL}" "test" "configset")" "OK"
+            tcheck "writer stdout / err" "$(texec "${SHELL}" "test" "writerstdouterr")" "OK"
         else
-            techo "$(echo "SKIP" | coal_writer_color_red | coal_writer_write) not found ${SHELL}."
+            techo "$(echo "SKIP" | writer_c_red | writer_write) not found ${SHELL}."
         fi
     done
 }
 
 export_global_docker() ## run test on docker.
 {
-    coal_framework_run "docker" "${SCRIPT_PATH}" "${@}"
+    framework_run "docker" "${SCRIPT_PATH}" "${@}"
 }
 
 export_docker_alpine() ## run test on alpine with docker.
@@ -91,7 +92,7 @@ export_docker_alpine() ## run test on alpine with docker.
     if type docker > /dev/null 2>&1; then
         docker run --rm -it -v"$(cd "$(framework_app_dir)/.." && pwd):/work" zeriyoshi/shell:alpine /work/test/run.sh run
     else
-        echo "Docker not found." | coal_writer_color_red | coal_writer_style_bold | coal_writer_writeln
+        echo "Docker not found." | writer_c_red | writer_s_bold | writer_writeln
     fi
 }
 
@@ -100,13 +101,13 @@ export_docker_debian() ## run test on debian with docker.
     if type docker > /dev/null 2>&1; then
         docker run --rm -it -v"$(cd "$(framework_app_dir)/.." && pwd):/work" zeriyoshi/shell:debian /work/test/run.sh run
     else
-        echo "Docker not found." | coal_writer_color_red | coal_writer_style_bold | coal_writer_writeln
+        echo "Docker not found." | writer_c_red | writer_s_bold | writer_writeln
     fi
 }
 
 export_global_test() ## run testcase.
 {
-    coal_framework_run "test" "${SCRIPT_PATH}" "${@}"
+    framework_self_run "test" "${@}"
 }
 
 export_test_initialize() ## initializing test environment.
@@ -122,7 +123,7 @@ export_test_simplecommandcall() ## simple command call.
 
 export_test_nestedcommandcall() ## nested command call.
 {
-    coal_command_call "test" "nestedcommandcallinvoke"
+    command_call "test" "nestedcommandcallinvoke"
 }
 
 export_test_nestedcommandcallinvoke() ## nested command call. (invoke)
@@ -132,7 +133,7 @@ export_test_nestedcommandcallinvoke() ## nested command call. (invoke)
 
 export_test_nestedframeworkrun() ## nested framework run.
 {
-    coal_framework_run "nested" "${SCRIPT_PATH}" "${@}"
+    framework_self_run "nested" "${@}"
 }
 
 export_nested_run() ## nested framework run.
@@ -155,7 +156,7 @@ export_test_parseargument() ## parse arguments.
 
 export_test_posixgetopt() ## POSIX getopt.
 {
-    coal_parser_parse "posixgetopt" "${@}"
+    parser_parse "posixgetopt" "${@}"
     if [ "$(coal_parser_option "posixgetopt" "foo")" = "bar" ] && \
        [ "$(coal_parser_option "posixgetopt" "bar")" = "true" ] && \
        [ "$(coal_parser_option "posixgetopt" "a")" = "true" ] && \
@@ -175,8 +176,15 @@ export_test_configget() ## config get.
 
 export_test_configset() ## config set.
 {
-    coal_config_key_set "$(coal_framework_app_dir)/config.conf" "baz" "OK"
-    coal_config_key_get "$(coal_framework_app_dir)/config.conf" "baz"
+    config_key_set "$(coal_framework_app_dir)/config.conf" "baz" "OK"
+    config_key_get "$(coal_framework_app_dir)/config.conf" "baz"
 }
 
-coal_framework_run "global" "${SCRIPT_PATH}" "${@}"
+export_test_writerstdouterr() ## writer stderr.
+{
+    echo "DUMMY" | writer_writeln
+    echo "OK"
+    echo "DUMMY" | writer_write
+}
+
+framework_self_run "global" "${@}"

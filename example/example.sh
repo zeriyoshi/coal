@@ -18,9 +18,7 @@ SCRIPT_DIR="$(dirname "${SCRIPT_PATH}")"
 
 . "${SCRIPT_DIR}/../framework/framework.sh"
 
-coal_framework_import
-
-framework_init "${SCRIPT_DIR}/../framework/components" "${SCRIPT_PATH}" \
+coal_framework_init "${SCRIPT_DIR}/../framework/components" "${SCRIPT_PATH}" \
     "coal example" \
     "coal example application" \
     "1.0.0" \
@@ -36,22 +34,22 @@ export_global_foo() ## foo - blah blah blah
 
 export_global_bar() ## bar - nest example
 {
-    framework_run "bar" "${SCRIPT_PATH}" "${@}"
+    framework_self_run "bar" "${@}"
 }
 
 export_bar_one() ## one
 {
-    echo "one"
+    echo "one: ${@}"
 }
 
 export_bar_two() ## two
 {
-    echo "two"
+    echo "two: ${@}"
 }
 
 export_bar_three() ## three
 {
-    echo "three"
+    echo "three: ${@}"
 }
 
 export_global_baz() ## baz - external nest example
@@ -89,4 +87,4 @@ export_global_config() ## config - config example ([key] --set=<value>)
     config_key_get "${SCRIPT_DIR}/example.config" "${CONFIG_KEY}"
 }
 
-framework_run "global" "${SCRIPT_PATH}" "${@}"
+framework_self_run "global" "${@}"
