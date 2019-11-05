@@ -106,12 +106,12 @@ coal_writer_short_import()
 
 coal_writer_write()
 {
-    printf "%s\e[0m" "$(cat -)"
+    printf "%s\e[0m" "$(cat -)" 1>&2
 }
 
 coal_writer_writeln()
 {
-    printf "%s\e[0m\n" "$(cat -)"
+    printf "%s\e[0m\n" "$(cat -)" 1>&2
 }
 
 coal_writer_erase()
