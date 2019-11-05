@@ -6,8 +6,6 @@
 # https://github.com/zeriyoshi/coal
 # ------------------------------------------------
 
-___COAL_COMMAND_CALL_CANDIDATE=""
-
 coal_command_import()
 {
     alias "command_call"="coal_command_call"
