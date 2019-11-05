@@ -66,7 +66,7 @@ export_global_run() ## run all tests.
         techoinit "${SHELL}"
         if type "${SHELL}" >/dev/null 2>&1; then
             techo "found ${SHELL}."
-            (coal_command_call "test" "initialize")
+            (command_call "test" "initialize")
 
             tcheck "simple command call" "$(texec "${SHELL}" "test" "simplecommandcall")" "OK"
             tcheck "nested command call" "$(texec "${SHELL}" "test" "nestedcommandcall")" "OK"
@@ -145,7 +145,7 @@ export_test_parseargument() ## parse arguments.
 {
     (
         RESULT=""
-        for ARG in $(coal_parser_args "${@}"); do
+        for ARG in $(parser_args "${@}"); do
             RESULT="${RESULT}${ARG}"
         done
         if [ "${RESULT}" = "VALID" ]; then
@@ -157,27 +157,27 @@ export_test_parseargument() ## parse arguments.
 export_test_posixgetopt() ## POSIX getopt.
 {
     parser_parse "posixgetopt" "${@}"
-    if [ "$(coal_parser_option "posixgetopt" "foo")" = "bar" ] && \
-       [ "$(coal_parser_option "posixgetopt" "bar")" = "true" ] && \
-       [ "$(coal_parser_option "posixgetopt" "a")" = "true" ] && \
-       [ "$(coal_parser_option "posixgetopt" "b")" = "true" ] && \
-       [ "$(coal_parser_option "posixgetopt" "c")" = "true" ]; then
+    if [ "$(parser_option "posixgetopt" "foo")" = "bar" ] && \
+       [ "$(parser_option "posixgetopt" "bar")" = "true" ] && \
+       [ "$(parser_option "posixgetopt" "a")" = "true" ] && \
+       [ "$(parser_option "posixgetopt" "b")" = "true" ] && \
+       [ "$(parser_option "posixgetopt" "c")" = "true" ]; then
        echo "OK"
     fi
 }
 
 export_test_configget() ## config get.
 {
-    if [ "$(coal_config_key_get "$(coal_framework_app_dir)/config.conf" "foo")" = "bar" ] &&
-       [ "$(coal_config_key_get "$(coal_framework_app_dir)/config.conf" "bar")" = "baz" ]; then
+    if [ "$(config_key_get "$(framework_app_dir)/config.conf" "foo")" = "bar" ] &&
+       [ "$(config_key_get "$(framework_app_dir)/config.conf" "bar")" = "baz" ]; then
        echo "OK"
     fi
 }
 
 export_test_configset() ## config set.
 {
-    config_key_set "$(coal_framework_app_dir)/config.conf" "baz" "OK"
-    config_key_get "$(coal_framework_app_dir)/config.conf" "baz"
+    config_key_set "$(framework_app_dir)/config.conf" "baz" "OK"
+    config_key_get "$(framework_app_dir)/config.conf" "baz"
 }
 
 export_test_writerstdouterr() ## writer stderr.
