@@ -14,6 +14,7 @@ ___COAL_FRAMEWORK_INIT_APP_VERSION=""
 ___COAL_FRAMEWORK_INIT_APP_URI=""
 ___COAL_FRAMEWORK_INIT_APPENDIX=""
 ___COAL_FRAMEWORK_RUN_NAMESPACE=""
+___COAL_FRAMEWORK_RUN_NAMESPACE_HISTORY=""
 ___COAL_FRAMEWORK_RUN_PATH=""
 ___COAL_FRAMEWORK_RUN_ARGS=""
 
@@ -139,10 +140,7 @@ coal_framework_generate_usage()
         echo | coal_writer_writeln
         echo "Usage:" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_writeln
         echo "    ${___COAL_FRAMEWORK_INIT_APP_PATH} " | coal_writer_write
-        if [ ! "${NAMESPACE}" = "global" ]; then
-            echo "${NAMESPACE} " | coal_writer_write
-        fi
-        echo "[command]" | coal_writer_writeln
+        echo "${___COAL_FRAMEWORK_RUN_NAMESPACE_HISTORY}" | coal_writer_write; echo "[command]" | coal_writer_writeln
         echo | coal_writer_writeln
         echo "Commands:" | coal_writer_style_bold | coal_writer_color_yellow | coal_writer_writeln
         coal_command_extract "${NAMESPACE}" "${SCRIPT_PATH}" | while read -r COMMAND; do
@@ -158,6 +156,10 @@ coal_framework_run()
     ___COAL_FRAMEWORK_RUN_PATH="${2}"
     shift
     shift
+
+    if [ ! "${___COAL_FRAMEWORK_RUN_NAMESPACE}" = "global" ]; then
+        ___COAL_FRAMEWORK_RUN_NAMESPACE_HISTORY="${___COAL_FRAMEWORK_RUN_NAMESPACE_HISTORY}${___COAL_FRAMEWORK_RUN_NAMESPACE} "
+    fi
 
     ___COAL_FRAMEWORK_RUN_ARGS="${@}"
     coal_parser_parse "${___COAL_FRAMEWORK_RUN_NAMESPACE}" "${___COAL_FRAMEWORK_RUN_ARGS}"
