@@ -52,6 +52,26 @@ export_bar_three() ## three
     echo "three: ${@}"
 }
 
+export_bar_hoge() ## more nest
+{
+    framework_self_run "hoge" "${@}"
+}
+
+export_hoge_one() ## one
+{
+    echo "one"
+}
+
+export_hoge_two() ## two
+{
+    echo "two"
+}
+
+export_hoge_three() ## three
+{
+    echo "three"
+}
+ 
 export_global_baz() ## baz - external nest example
 {
     . "${SCRIPT_DIR}/baz.source.sh"
