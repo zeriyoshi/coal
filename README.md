@@ -23,12 +23,13 @@ Commands:
 Any POSIX standard environments.
 
 Tested shells
-- bash (macOS / 5.0.11, macOS / 3.2.57)
-- dash (macOS)
-- yash (macOS / 2.49)
-- ksh (macOS / 93u 2012-08-01)
+- bash
+- dash
+- yash
+- ksh
 - ash (Alpine Busybox / 1.30.1)
 - sh (Alpine Busybox / 1.30.1)
+- zsh 
 
 ## Notes
 
