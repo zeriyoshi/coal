@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: '30 15 * * *'
 jobs:
-  container_build:
+  build_container:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
