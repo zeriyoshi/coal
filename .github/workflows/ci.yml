@@ -7,6 +7,6 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Run on Alpine Linux
-        run: sh test/run.sh docker debian
-      - name: Run on Debian
         run: sh test/run.sh docker alpine
+      - name: Run on Debian
+        run: sh test/run.sh docker debian
