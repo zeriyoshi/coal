@@ -1,5 +1,7 @@
 # Coal
 
+![](https://github.com/zeriyoshi/coal/workflows/CI/badge.svg)
+
 shell-script framework for POSIX environments.
 
 ```shell
