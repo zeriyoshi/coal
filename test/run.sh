@@ -90,7 +90,7 @@ export_global_docker() ## run test on docker.
 export_docker_alpine() ## run test on alpine with docker.
 {
     if type docker > /dev/null 2>&1; then
-        docker run --rm -it -v"$(cd "$(framework_app_dir)/.." && pwd):/work" zeriyoshi/shell:alpine /work/test/run.sh run
+        docker run --rm -i -v"$(cd "$(framework_app_dir)/.." && pwd):/work" zeriyoshi/shell:alpine /work/test/run.sh run
     else
         echo "Docker not found." | writer_c_red | writer_s_bold | writer_writeln
     fi
@@ -99,7 +99,7 @@ export_docker_alpine() ## run test on alpine with docker.
 export_docker_debian() ## run test on debian with docker.
 {
     if type docker > /dev/null 2>&1; then
-        docker run --rm -it -v"$(cd "$(framework_app_dir)/.." && pwd):/work" zeriyoshi/shell:debian /work/test/run.sh run
+        docker run --rm -i -v"$(cd "$(framework_app_dir)/.." && pwd):/work" zeriyoshi/shell:debian /work/test/run.sh run
     else
         echo "Docker not found." | writer_c_red | writer_s_bold | writer_writeln
     fi
