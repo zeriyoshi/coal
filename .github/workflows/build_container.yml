@@ -1,0 +1,24 @@
+name: Build Container
+on:
+  schedule:
+    - cron: '0 9 * * *'
+jobs:
+  container_build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@master
+      - name: Build Alpine Container
+        uses: elgohr/Publish-Docker-Github-Action@2.8
+        with:
+          name: zeriyoshi/shell:alpine
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          dockerfile: test/docker/alpine/Dockerfile
+      - name: Build Debian Container
+        uses: elgohr/Publish-Docker-Github-Action@2.8
+        with:
+          name: zeriyoshi/shell:debian
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          dockerfile: test/docker/debian/Dockerfile
